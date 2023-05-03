@@ -16,3 +16,10 @@ class dot:
         self.x, self.y = coords 
         return self.x, self.y
 
+class bluedot(dot):
+    def __init__(self, x, y, R, G, B, radius):
+        super().__init__(x, y, R, G, B, radius)
+
+class reddot(dot):
+    def __init__(self, x, y, R, G, B, radius):
+        super().__init__(x, y, R, G, B, radius)

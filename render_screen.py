@@ -1,5 +1,6 @@
 import pygame
-from dot_classes import dot
+from pygame.locals import *
+from dot_classes import reddot, bluedot
 pygame.init()
 
 
@@ -16,7 +17,6 @@ class MiniGrid:
         self.height = height
         
         
-
     def create_grid(self):
         grid = []
         for i in range(self.rows):
@@ -41,7 +41,6 @@ class MiniGrid:
         x, y = pos
         for cell_x, cell_y in self.draw(window):
             if cell_x - 5 <= x <= cell_x + 5 and cell_y - 5<= y <= cell_y + 5:
-                print(cell_x, cell_y)
                 return True, cell_x, cell_y
         return False
 
@@ -50,17 +49,10 @@ class MiniGrid:
 
         
 
-# Example usage
-pygame.init()
-
 
 grid= MiniGrid(10, 1920/16, 1080/8)
-
-
-
-
-#rendering screen in first place
 window=pygame.display.set_mode((1920,1080), pygame.FULLSCREEN)
+
 
 
 running=True
@@ -74,11 +66,19 @@ while running:
         mouse_pos = pygame.mouse.get_pos()
             
         if event.type == pygame.MOUSEBUTTONDOWN:
+            
             if grid.clicked_death_point(mouse_pos):
-                
-                punto = dot(mouse_pos, mouse_pos, 255, 255, 255, 4)
+                keys=pygame.key.get_pressed()
+                if keys[pygame.K_SPACE]:
+                        punto = bluedot(mouse_pos, mouse_pos, 0, 0, 255, 4)
+                        punto.center_snap(grid.clicked_death_point(mouse_pos)[1:])
+                        punto.draw(window)
+                        
+            if keys[pygame.K_k]:
+                punto = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4)
                 punto.center_snap(grid.clicked_death_point(mouse_pos)[1:])
                 punto.draw(window)
+
             
     
     MiniGrid.draw(grid, window)
