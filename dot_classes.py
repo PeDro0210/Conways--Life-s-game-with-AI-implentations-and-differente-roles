@@ -16,6 +16,16 @@ class dot:
         self.x, self.y = coords 
         return self.x, self.y
 
+    def point_state(self, grid):
+        #see if you can put more condition states
+        if self.x and self.y not in grid:
+            return True
+        else:
+            return False
+
+
+
+
 class bluedot(dot):
     def __init__(self, x, y, R, G, B, radius):
         super().__init__(x, y, R, G, B, radius)
