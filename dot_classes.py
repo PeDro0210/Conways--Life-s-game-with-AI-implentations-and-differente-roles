@@ -17,11 +17,11 @@ class dot:
         return self.x, self.y
 
     def point_state(self, grid):
-        #see if you can put more condition states
         if self.x and self.y not in grid:
             return True
         else:
             return False
+    
 
 
 

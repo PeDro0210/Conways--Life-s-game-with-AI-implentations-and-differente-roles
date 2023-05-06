@@ -23,7 +23,6 @@ class MiniGrid:
             grid.append([])
             for _ in range(self.cols):
                 grid[i].append(0)
-                print(_)
         
         return grid
     
@@ -43,10 +42,7 @@ class MiniGrid:
             if cell_x - 5 <= x <= cell_x + 5 and cell_y - 5<= y <= cell_y + 5:
                 return True, cell_x, cell_y
         return False
-
-
-
-
+    
 class button:
     def __init__(self,x,y,dim, R,G,B):
         self.x=x
@@ -63,6 +59,21 @@ class button:
             return True
         else:
             return False
+        
+
+def coord_detection(dot):
+    
+    #llevas mejor progreso :D, te amo
+    display_coords=[]
+    for i in range(3):
+        x = dot.x - 10
+        y = dot.y - 10 + 10*i
+        for j in range(3):
+            display_coords.append([x, y])
+            x += 10
+    return display_coords
+
+        
     
 
     
@@ -91,26 +102,55 @@ while running:
             if grid.clicked_death_point(mouse_pos):
                 keys=pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:
-                        punto = bluedot(mouse_pos, mouse_pos, 0, 0, 255, 4)
-                        point=punto.center_snap(grid.clicked_death_point(mouse_pos)[1:])
-                        blue_coords.append(point)
-                        blue_dot.append(punto)
-                        punto.draw(window)
+                    
+                    punto_blue = bluedot(mouse_pos, mouse_pos, 0, 0, 255, 4)
+                    point_blue=punto_blue.center_snap(grid.clicked_death_point(mouse_pos)[1:])
+                    
+                    if point_blue not in blue_coords:
+                        blue_coords.append(point_blue)
+                        blue_dot.append(punto_blue)
+                        punto_blue.draw(window)
+                    else:
+                        print('not valid')
                         
                 if keys[pygame.K_k]:
-                    punto = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4)
-                    punto.center_snap(grid.clicked_death_point(mouse_pos)[1:])
-                    red_coords.append(point)
-                    red_dot.append(punto)
-                    punto.draw(window)
                     
+                    punto_red = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4)
+                    point_red=punto_red.center_snap(grid.clicked_death_point(mouse_pos)[1:])
+                    
+                    if point_red not in red_coords:
+                        red_coords.append(point_red)
+                        red_dot.append(punto_red)
+                        punto_red.draw(window)
+                    else:
+                        print('not valid')
+
+
             if button1.clicked(mouse_pos):
-                #keep checking the rules
-                for i in blue_dot:
-                    if i.point_state(blue_coords):
-                        punto=bluedot(i.x+10, i.y+10, 0, 0, 255, 4)
-                        print(punto.x, punto.y)
-                        punto.draw(window)
+                print('clicked' )
+
+                for dot in blue_dot:
+                    coords=coord_detection(dot)
+                    print(coords)
+                    print(blue_coords)
+                    
+                    for coord in coords:
+                        
+                        if coord in blue_coords:
+                            pass
+                        else:
+                            punto_azul=bluedot(coord[0], coord[1], 0, 0, 255, 4)
+                            blue_coords.append(coord)
+                            blue_dot.append(punto_azul)
+                            punto_azul.draw(window)
+                            pygame.display.flip()
+                        
+                        
+                        
+                            
+                        
+                
+                
                     
 
     
