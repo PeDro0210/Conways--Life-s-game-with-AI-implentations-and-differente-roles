@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from dot_classes import reddot, bluedot
-
+import random as rd 
 
 #creating the grid in first place
 
@@ -15,7 +15,22 @@ class MiniGrid:
         self.grid = self.create_grid()
         self.width = width
         self.height = height
-        
+
+
+    def get_limits_coords(self):
+        limits = []
+        rows= self.rows-8
+        cols= self.cols+8
+
+        for i in range(rows):
+            for j in range(cols):
+                if i == 0 or j == 0 or i == rows - 1 or j == cols - 1:
+                    x = j * self.cell_size + self.width * 5 + 5
+                    y = i * self.cell_size + self.height * 2 + 5
+                    limits.append([x, y])
+
+        return limits
+ 
         
     def create_grid(self):
         grid = []
@@ -33,7 +48,7 @@ class MiniGrid:
                 x = i * self.cell_size + self.width * 5
                 y = j * self.cell_size + self.height * 2
                 pygame.draw.rect(window, (255, 255, 255), (x, y, self.cell_size, self.cell_size), 1)
-                important_coords.append((x+5, y+5))
+                important_coords.append([x+5, y+5])
         return important_coords
 
     def clicked_death_point(self, pos):
@@ -63,7 +78,7 @@ class button:
 
 def coord_detection(dot):
     
-    #llevas mejor progreso :D, te amo
+    
     display_coords=[]
     for i in range(3):
         x = dot.x - 10
@@ -71,6 +86,8 @@ def coord_detection(dot):
         for j in range(3):
             display_coords.append([x, y])
             x += 10
+    
+        
     return display_coords
 
         
@@ -129,22 +146,26 @@ while running:
             if button1.clicked(mouse_pos):
                 print('clicked' )
 
+
                 for dot in blue_dot:
-                    coords=coord_detection(dot)
-                    print(coords)
-                    print(blue_coords)
-                    
+                    coords = coord_detection(dot)
+
                     for coord in coords:
-                        
-                        if coord in blue_coords:
-                            pass
+        
+
+                        # in here it will sort if the coord is in the list of blue coords
+                        if coord not in blue_coords:
+                            if dot.limit_detector(grid):
+                                punto_azul = bluedot(coord[0], coord[1], 0, 225, 0, 4)
+                                blue_coords.append(coord)
+                                blue_dot.append(punto_azul)
+                                punto_azul.draw(window)
+                                pygame.display.flip()
+                            else:
+                                pass
                         else:
-                            punto_azul=bluedot(coord[0], coord[1], 0, 0, 255, 4)
-                            blue_coords.append(coord)
-                            blue_dot.append(punto_azul)
-                            punto_azul.draw(window)
-                            pygame.display.flip()
-                        
+                            print('not valid')
+
                         
                         
                             
