@@ -75,6 +75,31 @@ class button:
         else:
             return False
         
+class game_of_life:
+    def __init__(self,blue_dots,red_dots,blue_coords,red_coords):
+        self.blue_dots=blue_dots
+        self.red_dots=red_dots 
+        self.blue_coords=blue_coords
+        self.red_dots=red_coords
+        
+    
+    def neighboar_checking(self,dot):
+        neigboar_count=0
+        coords=coord_detection(dot)
+        
+        for coord in coords:
+            if coord in blue_coords:
+                neigboar_count+=1
+            if coord in red_coords:
+                neigboar_count+=1
+
+        
+        return neigboar_count
+    
+    
+        
+        
+        
 
 def coord_detection(dot):
     
@@ -145,13 +170,14 @@ while running:
 
             if button1.clicked(mouse_pos):
                 print('clicked' )
+                game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
 
-
+                
                 for dot in blue_dot:
                     coords = coord_detection(dot)
-
+                    
                     for coord in coords:
-        
+                        
 
                         # in here it will sort if the coord is in the list of blue coords
                         if coord not in blue_coords:
@@ -165,6 +191,8 @@ while running:
                                 pass
                         else:
                             print('not valid')
+                        
+
 
                         
                         
