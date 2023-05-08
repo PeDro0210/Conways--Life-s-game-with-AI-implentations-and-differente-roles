@@ -80,22 +80,38 @@ class game_of_life:
         self.blue_dots=blue_dots
         self.red_dots=red_dots 
         self.blue_coords=blue_coords
-        self.red_dots=red_coords
+        self.red_coords=red_coords
         
     
-    def neighboar_checking(self,dot):
-        neigboar_count=0
-        coords=coord_detection(dot)
-        
-        for coord in coords:
-            if coord in blue_coords:
-                neigboar_count+=1
-            if coord in red_coords:
-                neigboar_count+=1
-
-        
-        return neigboar_count
-    
+    def neighboar_checking(self):
+        for b_dot, r_dot in zip(self.blue_dots, self.red_dots):
+            coords = coord_detection(b_dot)
+            coords2 = coord_detection(r_dot)
+            for b_coord,r_coords in zip(coords,coords2):
+                
+                if b_coord in self.blue_coords:
+                    if b_coord == coords[4]:
+                        pass
+                    else:
+                        b_dot.neighbor_coords.append(b_coord)
+                        
+                if b_coord in self.red_coords:
+                    if b_coord == coords[4]:
+                        pass
+                    else:
+                        b_dot.different_neighbors.append(b_coord)
+                    
+                if r_coords in self.red_coords:
+                    if r_coords == coords2[4]:
+                        pass
+                    else:
+                        r_dot.neighbor_coords.append(r_coords)
+                        
+                if r_coords in self.blue_coords:
+                    if r_coords == coords2[4]:
+                        pass
+                    else:
+                        r_dot.different_neighbors.append(r_coords)
     
         
         
@@ -145,7 +161,7 @@ while running:
                 keys=pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:
                     
-                    punto_blue = bluedot(mouse_pos, mouse_pos, 0, 0, 255, 4)
+                    punto_blue = bluedot(mouse_pos, mouse_pos, 0, 0, 255, 4,[],[])
                     point_blue=punto_blue.center_snap(grid.clicked_death_point(mouse_pos)[1:])
                     
                     if point_blue not in blue_coords:
@@ -157,7 +173,7 @@ while running:
                         
                 if keys[pygame.K_k]:
                     
-                    punto_red = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4)
+                    punto_red = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4,[],[])
                     point_red=punto_red.center_snap(grid.clicked_death_point(mouse_pos)[1:])
                     
                     if point_red not in red_coords:
@@ -171,29 +187,22 @@ while running:
             if button1.clicked(mouse_pos):
                 print('clicked' )
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
+                game.neighboar_checking()
+                
+                for b_dot in blue_dot:
+                    print(f' {b_dot} {b_dot.neighbor_coords}')
+                    print(b_dot.different_neighbors)
+                
+                for r_dot in red_dot:
+                    print(f'{r_dot}  {r_dot.neighbor_coords}')
+                    print(r_dot.different_neighbors)
+
 
                 
-                for dot in blue_dot:
-                    coords = coord_detection(dot)
+                
                     
-                    for coord in coords:
-                        
-
-                        # in here it will sort if the coord is in the list of blue coords
-                        if coord not in blue_coords:
-                            if dot.limit_detector(grid):
-                                punto_azul = bluedot(coord[0], coord[1], 0, 225, 0, 4)
-                                blue_coords.append(coord)
-                                blue_dot.append(punto_azul)
-                                punto_azul.draw(window)
-                                pygame.display.flip()
-                            else:
-                                pass
-                        else:
-                            print('not valid')
-                        
-
-
+                    
+                               
                         
                         
                             

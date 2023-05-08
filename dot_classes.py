@@ -3,11 +3,13 @@ import pygame
 #main class
 class dot:
     
-    def __init__(self, x, y, R, G, B, radius):
+    def __init__(self, x, y, R, G, B, radius, neighbor_coords=[], dif_neighbors=[]):
         self.x = x
         self.y = y
         self.color = (R, G, B)
         self.radius = radius
+        self.neighbor_coords = neighbor_coords
+        self.different_neighbors = dif_neighbors
         
     def draw(self, window):
         pygame.draw.circle(window, self.color, (self.x, self.y), self.radius)
@@ -47,9 +49,9 @@ class dot:
 
 
 class bluedot(dot):
-    def __init__(self, x, y, R, G, B, radius):
-        super().__init__(x, y, R, G, B, radius)
+    def __init__(self, x, y, R, G, B, radius, neighbor_coords, dif_neighbors):
+        super().__init__(x, y, R, G, B, radius, neighbor_coords,dif_neighbors)
 
 class reddot(dot):
-    def __init__(self, x, y, R, G, B, radius):
-        super().__init__(x, y, R, G, B, radius)
+    def __init__(self, x, y, R, G, B, radius, neighbor_coords, dif_neighbors):
+        super().__init__(x, y, R, G, B, radius, neighbor_coords, dif_neighbors)
