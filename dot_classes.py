@@ -3,28 +3,25 @@ import pygame
 #main class
 class dot:
     
-    def __init__(self, x, y, R, G, B, radius, neighbor_coords=[], dif_neighbors=[]):
+    def __init__(self, x, y, R, G, B, radius, state, neighbor=[], dif_neighbors=[], coords_around=[]):
         self.x = x
         self.y = y
         self.color = (R, G, B)
         self.radius = radius
-        self.same_neigbor = neighbor_coords
+        self.state = state
+        self.same_neigbor = neighbor
         self.different_neighbors = dif_neighbors
+        self.coords_arround = coords_around
         
     def draw(self, window):
         pygame.draw.circle(window, self.color, (self.x, self.y), self.radius)
+    
     
     def center_snap(self, coords):
         self.x, self.y = coords 
         return [self.x, self.y]
 
-    def point_state(self, grid):
-        if self.x and self.y not in grid:
-            return True
-        else:
-            return False
-    
-    
+
     def coord_detection(self):
 
         display_coords=[]
@@ -38,19 +35,24 @@ class dot:
             
         return display_coords
 
-    def limit_detector(self,grid):
-        doot_coords = [self.x, self.y]
-        if doot_coords not in grid.get_limits_coords():
-            return True         
+    def point_state(self):
+        if len(self.same_neigbor) >= 2 and len(self.same_neigbor) <= 3:
+            self.state = True
         else:
-            return False
+            self.state = False
+        
+
+    
+    def get_out(self,window):
+        pygame.draw.circle(window, (255,255,255), (self.x, self.y), self.radius)
     
 
 
+
 class bluedot(dot):
-    def __init__(self, x, y, R, G, B, radius, neighbor_coords, dif_neighbors):
-        super().__init__(x, y, R, G, B, radius, neighbor_coords,dif_neighbors)
+    def __init__(self, x, y, R, G, B, radius,state, neighbor, dif_neighbors, coords_around):
+        super().__init__(x, y, R, G, B, radius,state, neighbor,dif_neighbors, coords_around)
 
 class reddot(dot):
-    def __init__(self, x, y, R, G, B, radius, neighbor_coords, dif_neighbors):
-        super().__init__(x, y, R, G, B, radius, neighbor_coords, dif_neighbors)
+    def __init__(self, x, y, R, G, B, radius,state, neighbor, dif_neighbors, coords_around):
+        super().__init__(x, y, R, G, B, radius,state, neighbor, dif_neighbors, coords_around)
