@@ -8,7 +8,7 @@ class dot:
         self.y = y
         self.color = (R, G, B)
         self.radius = radius
-        self.neighbor_coords = neighbor_coords
+        self.same_neigbor = neighbor_coords
         self.different_neighbors = dif_neighbors
         
     def draw(self, window):
@@ -44,8 +44,7 @@ class dot:
             return True         
         else:
             return False
-    #[[first_row_coords], [first_col_coords], [last_row_coords], [last_col_coords]]
-    #first_row_coords= [[x,y],[x,y],[x,y],[x,y],[x,y],[x,y],[x,y],[x,y],[x,y],[x,y]] asi con todos, por eso va tan lento
+    
 
 
 class bluedot(dot):

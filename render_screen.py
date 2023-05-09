@@ -41,6 +41,7 @@ class MiniGrid:
         
         return grid
     
+    
     def draw(self, window):
         important_coords = []
         for i in range(self.rows):
@@ -57,11 +58,12 @@ class MiniGrid:
             if cell_x - 5 <= x <= cell_x + 5 and cell_y - 5<= y <= cell_y + 5:
                 return True, cell_x, cell_y
         return False
+  
     
 class button:
     def __init__(self,x,y,dim, R,G,B):
         self.x=x
-        self.y=y
+        self.y=y    
         self.dim=dim
         self.color=(R,G,B)
         
@@ -75,6 +77,9 @@ class button:
         else:
             return False
         
+        
+        
+
 class game_of_life:
     def __init__(self,blue_dots,red_dots,blue_coords,red_coords):
         self.blue_dots=blue_dots
@@ -82,59 +87,61 @@ class game_of_life:
         self.blue_coords=blue_coords
         self.red_coords=red_coords
         
-    
+
+    #it has to be the same number of blue dots and red dots
     def neighboar_checking(self):
         for b_dot, r_dot in zip(self.blue_dots, self.red_dots):
-            coords = coord_detection(b_dot)
-            coords2 = coord_detection(r_dot)
-            for b_coord,r_coords in zip(coords,coords2):
+            coords = self.coord_detection(b_dot)
+            coords2 = self.coord_detection(r_dot)
+            coords.remove(coords[4])
+            coords2.remove(coords2[4])
+            
+            
+            for b_coord, r_coord in zip(coords, coords2):
                 
-                if b_coord in self.blue_coords:
-                    if b_coord == coords[4]:
-                        pass
-                    else:
-                        b_dot.neighbor_coords.append(b_coord)
-                        
-                if b_coord in self.red_coords:
-                    if b_coord == coords[4]:
-                        pass
-                    else:
-                        b_dot.different_neighbors.append(b_coord)
+                for blue_dot,red_dot in zip(self.blue_dots,self.red_dots):
+
+                    if blue_dot.x == b_coord[0] and blue_dot.y == b_coord[1]:
+                        b_dot.same_neigbor.append(blue_dot)
                     
-                if r_coords in self.red_coords:
-                    if r_coords == coords2[4]:
-                        pass
-                    else:
-                        r_dot.neighbor_coords.append(r_coords)
-                        
-                if r_coords in self.blue_coords:
-                    if r_coords == coords2[4]:
-                        pass
-                    else:
-                        r_dot.different_neighbors.append(r_coords)
+                    if red_dot.x == b_coord[0] and red_dot.y == b_coord[1]:
+                        b_dot.different_neighbors.append(red_dot)
+
+
+                    if red_dot.x == r_coord[0] and red_dot.y == r_coord[1]:
+                        r_dot.same_neigbor.append(red_dot)
+                    
+                    if blue_dot.x == r_coord[0] and blue_dot.y == r_coord[1]:
+                        r_dot.different_neighbors.append(blue_dot)
+   
+
+                
+                    
     
+
         
         
         
 
-def coord_detection(dot):
-    
-    
-    display_coords=[]
-    for i in range(3):
-        x = dot.x - 10
-        y = dot.y - 10 + 10*i
-        for j in range(3):
-            display_coords.append([x, y])
-            x += 10
-    
+    def coord_detection(self,dot):
         
-    return display_coords
+        
+        display_coords=[]
+        for i in range(3):                 
+            x = dot.x - 10
+            y = dot.y - 10 + 10*i
+            for j in range(3):
+                display_coords.append([x, y])
+                x += 10
+        
+            
+        return display_coords
 
         
     
 
-    
+
+#main place
 grid= MiniGrid(10, 1920/16, 1080/8)
 window=pygame.display.set_mode((1920,1080))
 running=True
@@ -170,6 +177,7 @@ while running:
                         punto_blue.draw(window)
                     else:
                         print('not valid')
+                 
                         
                 if keys[pygame.K_k]:
                     
@@ -184,17 +192,18 @@ while running:
                         print('not valid')
 
 
+
             if button1.clicked(mouse_pos):
                 print('clicked' )
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
                 game.neighboar_checking()
                 
                 for b_dot in blue_dot:
-                    print(f' {b_dot} {b_dot.neighbor_coords}')
+                    print(f' {b_dot} {b_dot.same_neigbor}')
                     print(b_dot.different_neighbors)
                 
                 for r_dot in red_dot:
-                    print(f'{r_dot}  {r_dot.neighbor_coords}')
+                    print(f'{r_dot}  {r_dot.same_neigbor}')
                     print(r_dot.different_neighbors)
 
 
