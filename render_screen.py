@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from dot_classes import reddot, bluedot
 
+
 #creating the grid in first place
 
 class MiniGrid:
@@ -116,7 +117,7 @@ class game_of_life:
                     
                     if blue_dot.x == r_coord[0] and blue_dot.y == r_coord[1]:
                         r_dot.different_neighbors.append(blue_dot)
-   
+                        
 
                 
                     
@@ -133,11 +134,18 @@ class game_of_life:
         
             
         return display_coords
-
-        
     
-
-
+    def new_gen(self):
+        #dude, this looks imposible to optimize, I'll fix it later
+        #we take blue dots
+        #we iterate over the blue dots
+        #for one blue dot, we see it's neigboars
+        #if just 3 neigboards of the same color have a coord in common (in the coord around array)
+        #it will create a new blue dot in that coord
+        
+        
+        
+        
 #main place
 grid= MiniGrid(10, 1920/16, 1080/8)
 window=pygame.display.set_mode((1920,1080))
@@ -166,7 +174,7 @@ while running:
                 keys=pygame.key.get_pressed()
                 if keys[pygame.K_SPACE]:
                     
-                    punto_blue = bluedot(mouse_pos, mouse_pos, 0, 0, 255, 4, True , [],[],[])
+                    punto_blue = bluedot(mouse_pos, mouse_pos, 0, 0, 255, 4, True , [],[], [])
                     point_blue=punto_blue.center_snap(grid.clicked_death_point(mouse_pos)[1:])
 
                     
@@ -180,7 +188,7 @@ while running:
                         
                 if keys[pygame.K_k]:
                     
-                    punto_red = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4,True ,[],[],[])
+                    punto_red = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4,True ,[],[], [])
                     point_red=punto_red.center_snap(grid.clicked_death_point(mouse_pos)[1:])
                           
                     if point_red not in red_coords:
@@ -193,17 +201,29 @@ while running:
 
 
             if button1.clicked(mouse_pos):
-                #check this, it is not working as expected, look at the rules
                 print('clicked' )
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
-                game.neighboar_checking() 
+                game.neighboar_checking()
+                game.new_gen()
                 
-                for b_dot, r_dot in zip(blue_dot, red_dot):
-                    b_dot.point_state()
-                    r_dot.point_state()
-                    
-                    print(b_dot.state)  
-                    print(r_dot.state)
+                for i in range(10):    
+                    for b_dot, r_dot in zip(blue_dot, red_dot):
+                        b_dot.point_state()
+                        r_dot.point_state()
+                        
+                        
+                        
+                        if b_dot.state == True:
+                            print('is alive')
+                            
+                        else:
+                            b_dot.remove(window)
+                                
+                        if r_dot.state == True:
+                            print('is alive')
+                            
+                        else:
+                            r_dot.remove(window)
                 
 
                         
