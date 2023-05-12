@@ -136,6 +136,7 @@ class game_of_life:
         return display_coords
     
     def new_gen(self):
+        pass
         #dude, this looks imposible to optimize, I'll fix it later
         #we take blue dots
         #we iterate over the blue dots
