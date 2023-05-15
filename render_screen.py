@@ -135,18 +135,25 @@ class game_of_life:
             
         return display_coords
     
+    
     def new_gen(self):
-        pass
-        #dude, this looks imposible to optimize, I'll fix it later
-        #we take blue dots
-        #we iterate over the blue dots
-        #for one blue dot, we see it's neigboars
-        #if just 3 neigboards of the same color have a coord in common (in the coord around array)
-        #it will create a new blue dot in that coord
-        
-        
-        
-        
+        #OKAY, THIS IS PROGRESS, MAYBE IS KINDA SPAGHETTI BUT IT WORKS (later, just have to see how to take aout the main dot)
+        for blue_dot in self.blue_dots:
+            if len(blue_dot.same_neigbor)==2:
+                first_arround=blue_dot.coords_arround[0]
+                second_arround=None
+                third_arround=None
+                
+                for neighboars in  blue_dot.same_neigbor:
+                    for neighboar_coords in neighboars.coords_arround:
+                        if neighboar_coords not in first_arround:
+                            second_arround=neighboar_coords
+                        if neighboar_coords not in first_arround and neighboar_coords not in second_arround:
+                            third_arround=neighboar_coords
+
+                
+                intersection = [value for value in first_arround if value in second_arround and value in third_arround]
+                print(intersection)                
 #main place
 grid= MiniGrid(10, 1920/16, 1080/8)
 window=pygame.display.set_mode((1920,1080))
