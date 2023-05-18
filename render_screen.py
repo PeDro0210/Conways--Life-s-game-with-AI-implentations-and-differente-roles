@@ -139,6 +139,7 @@ class game_of_life:
     def new_gen(self):
         #OKAY, THIS IS PROGRESS, MAYBE IS KINDA SPAGHETTI BUT IT WORKS (later, just have to see how to take aout the main dot)
         for blue_dot in self.blue_dots:
+            
             if len(blue_dot.same_neigbor)==2:
                 first_arround=blue_dot.coords_arround[0]
                 second_arround=None
@@ -150,10 +151,11 @@ class game_of_life:
                             second_arround=neighboar_coords
                         if neighboar_coords not in first_arround and neighboar_coords not in second_arround:
                             third_arround=neighboar_coords
-
+                            
+                intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.blue_coords]
                 
-                intersection = [value for value in first_arround if value in second_arround and value in third_arround]
-                print(intersection)                
+                return intersection[0][0], intersection[0][1] 
+                            
 #main place
 grid= MiniGrid(10, 1920/16, 1080/8)
 window=pygame.display.set_mode((1920,1080))
@@ -210,50 +212,41 @@ while running:
 
             if button1.clicked(mouse_pos):
                 print('clicked' )
+                #como siempre, esto da problema
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
-                game.neighboar_checking()
-                game.new_gen()
-                
-                for i in range(10):    
-                    for b_dot, r_dot in zip(blue_dot, red_dot):
-                        b_dot.point_state()
-                        r_dot.point_state()
+                for b_dot, r_dot in zip(blue_dot, red_dot):
+                    game.neighboar_checking()
+                    b_dot.state
+                    r_dot.state
+                    print(b_dot.same_neigbor)
+                    
+                    if game.new_gen() != None:
                         
+                        new_dot=bluedot(game.new_gen()[0],game.new_gen()[1],0,0,255,4,True,[],[],[])
+                        new_dot.draw(window)
+                        blue_dot.append(new_dot)
+                        print(new_dot.x, new_dot.y)
                         
-                        
-                        if b_dot.state == True:
-                            print('is alive')
-                            
-                        else:
-                            b_dot.remove(window)
-                                
-                        if r_dot.state == True:
-                            print('is alive')
-                            
-                        else:
-                            r_dot.remove(window)
-                
-
-                        
-                            
-                        
-                        
-
-
-                
-                
+                    else:
+                        pass
                     
                     
-                               
+                    print(len(b_dot.same_neigbor))
+                    if b_dot.state == True:
+                        print('is alive')
                         
-                        
+                    else:
+                        b_dot.remove(window)
                             
+                    if r_dot.state == True:
+                        print('is alive')
                         
-                
-                
+                    else:
+                        r_dot.remove(window)
                     
+                
 
-    
+
     MiniGrid.draw(grid, window)
     pygame.display.update()
 

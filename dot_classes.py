@@ -36,9 +36,9 @@ class dot:
         return display_coords
 
     def point_state(self):
-        if len(self.same_neigbor) >= 2 and len(self.same_neigbor) <= 3:
+        if len(self.same_neigbor) == 2:
             
-            if len(self.different_neighbors) > 1:
+            if len(self.different_neighbors) == 1:
                 self.state = False
             else:
                 self.state = True
