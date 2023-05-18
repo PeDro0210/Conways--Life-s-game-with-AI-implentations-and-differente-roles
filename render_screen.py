@@ -156,7 +156,7 @@ class game_of_life:
                             
                 intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.blue_coords]
                 
-                return intersection[1]
+                return intersection #the list comprehesion is something I don't really kow how to use in this case, I need to catch all the dots in the array.
             
                             
                             
