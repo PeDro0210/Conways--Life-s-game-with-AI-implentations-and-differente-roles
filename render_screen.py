@@ -2,7 +2,6 @@ import pygame
 from pygame.locals import *
 from dot_classes import reddot, bluedot
 
-
 #creating the grid in first place
 
 class MiniGrid:
@@ -78,7 +77,7 @@ class button:
             return False
         
         
-        
+
 
 class game_of_life:
     def __init__(self,blue_dots,red_dots,blue_coords,red_coords):
@@ -90,6 +89,7 @@ class game_of_life:
 
     #it has to be the same number of blue dots and red dots
     def neighboar_checking(self):
+        #this is still good
         for b_dot, r_dot in zip(self.blue_dots, self.red_dots):
             coords = self.coord_detection(b_dot)
             coords.remove(coords[4])
@@ -123,7 +123,7 @@ class game_of_life:
                     
     def coord_detection(self,dot):
         
-        
+        #this is the simples and effective function of all
         display_coords=[]
         for i in range(3):                 
             x = dot.x - 10
@@ -138,9 +138,11 @@ class game_of_life:
     
     def new_gen(self):
         #OKAY, THIS IS PROGRESS, MAYBE IS KINDA SPAGHETTI BUT IT WORKS (later, just have to see how to take aout the main dot)
+        #Here's the principal issue, the way of seein the new generation
+        #I have to do the flowchart to make the new generation
         for blue_dot in self.blue_dots:
             
-            if len(blue_dot.same_neigbor)==2:
+            if len(blue_dot.same_neigbor)==3:
                 first_arround=blue_dot.coords_arround[0]
                 second_arround=None
                 third_arround=None
@@ -154,7 +156,10 @@ class game_of_life:
                             
                 intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.blue_coords]
                 
-                return intersection[0][0], intersection[0][1] 
+                return intersection[1]
+            
+                            
+                            
                             
 #main place
 grid= MiniGrid(10, 1920/16, 1080/8)
@@ -178,6 +183,7 @@ while running:
         mouse_pos = pygame.mouse.get_pos()
         button1.draw(window)
         
+        #toda esta parte esta bastante bien de hecho
         if event.type == pygame.MOUSEBUTTONDOWN:
             
             if grid.clicked_death_point(mouse_pos):
@@ -207,46 +213,52 @@ while running:
                         punto_red.draw(window)
                     else:
                         print('not valid')
-
+            #hasta aca tambien sigue bastante bien
 
 
             if button1.clicked(mouse_pos):
                 print('clicked' )
                 #como siempre, esto da problema
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
-                for b_dot, r_dot in zip(blue_dot, red_dot):
-                    game.neighboar_checking()
-                    b_dot.state
-                    r_dot.state
-                    print(b_dot.same_neigbor)
+                while True:   
+                    #tambien ando con el problema aca
                     
-                    if game.new_gen() != None:
+                    for b_dot, r_dot in zip(game.blue_dots, game.red_dots):#THIS FUCKING FOR LOOP DUDE, WTF
+                        game.neighboar_checking()
+                        b_dot.state
+                        r_dot.state
                         
-                        new_dot=bluedot(game.new_gen()[0],game.new_gen()[1],0,0,255,4,True,[],[],[])
-                        new_dot.draw(window)
-                        blue_dot.append(new_dot)
-                        print(new_dot.x, new_dot.y)
-                        
-                    else:
-                        pass
-                    
-                    
-                    print(len(b_dot.same_neigbor))
-                    if b_dot.state == True:
-                        print('is alive')
-                        
-                    else:
-                        b_dot.remove(window)
+                        print(game.new_gen())
+                        if game.new_gen() != None:
                             
-                    if r_dot.state == True:
-                        print('is alive')
+                            new_dot=bluedot(game.new_gen()[0],game.new_gen()[1],0,0,255,4,True,[],[],[])
+                            new_dot.draw(window)
+                            game.blue_dots.append(new_dot)
+                                
+                        else:
+                            
+                            pass
                         
-                    else:
-                        r_dot.remove(window)
-                    
+                        
+                        
+                        if b_dot.state == True:
+                            pass
+                            
+                        else:
+                            b_dot.remove(window)
+                            print('dead')
+                                
+                        if r_dot.state == True:
+                            pass
+                            
+                        else:
+                            r_dot.remove(window)
+                            print('dead')
+                            
+                        pygame.display.update()
                 
-
-
+                    
+            
     MiniGrid.draw(grid, window)
     pygame.display.update()
 
