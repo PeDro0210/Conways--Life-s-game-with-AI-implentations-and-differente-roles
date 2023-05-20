@@ -140,7 +140,7 @@ class game_of_life:
     
 
 
-#main place
+
 grid= MiniGrid(10, 1920/16, 1080/8)
 window=pygame.display.set_mode((1920,1080))
 background=pygame.draw.rect(window,(255,255,255),(0,0,1920,1080),0)

@@ -1,5 +1,5 @@
 import pygame
-import random as rd
+import random as rd #this is also provisional
 
 #not alot in here, just the class, but all of this things work fine.
 class dot:
