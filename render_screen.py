@@ -4,7 +4,8 @@ from dot_classes import reddot, bluedot
 
 #creating the grid in first place
 
-class MiniGrid:
+
+class MiniGrid: #don't worry about the grid, this is the things that works the best
     def __init__(self, cell_size, width, height):
         self.rows = round(height/2)
         self.cols = round(width/2)
@@ -59,7 +60,7 @@ class MiniGrid:
         return False
   
     
-class button:
+class button: #also this, it works perfectly :D
     def __init__(self,x,y,dim, R,G,B):
         self.x=x
         self.y=y    
@@ -90,11 +91,12 @@ class game_of_life:
     #it has to be the same number of blue dots and red dots
     def neighboar_checking(self):
         for b_dot, r_dot in zip(self.blue_dots, self.red_dots):
-            coords = self.coord_detection(b_dot)
-            coords.remove(coords[4])
-            b_dot.coords_arround.append(coords)
             
-            coords2 = self.coord_detection(r_dot)
+            coords = self.coord_detection(b_dot)#from the coords_detection fun, we get the coords of the 9 points around the dot (inlcuding the dot itself)
+            coords.remove(coords[4])#here we remove the dot
+            b_dot.coords_arround.append(coords)#for playin with the coords around it after we put it in one of the object attributes
+            
+            coords2 = self.coord_detection(r_dot)#same process for the red dot
             coords2.remove(coords2[4])
             r_dot.coords_arround.append(coords)
             
@@ -104,11 +106,11 @@ class game_of_life:
                 
                 for blue_dot,red_dot in zip(self.blue_dots,self.red_dots):
 
-                    if blue_dot.x == b_coord[0] and blue_dot.y == b_coord[1]:
-                        b_dot.same_neigbor.append(blue_dot)
+                    if blue_dot.x == b_coord[0] and blue_dot.y == b_coord[1]:#in the case that the dot in the iteration, is has the coords bewteen the coords around the dot
+                        b_dot.same_neigbor.append(blue_dot)#it adds it in the neighbor list of the dot
                     
                     if red_dot.x == b_coord[0] and red_dot.y == b_coord[1]:
-                        b_dot.different_neighbors.append(red_dot)
+                        b_dot.different_neighbors.append(red_dot)#similar process, but in the different neighbor list
 
 
                     if red_dot.x == r_coord[0] and red_dot.y == r_coord[1]:
@@ -122,7 +124,7 @@ class game_of_life:
                     
     def coord_detection(self,dot):
         
-        
+        #this is so perfect really, I'm so proud of myself
         display_coords=[]
         for i in range(3):                 
             x = dot.x - 10
@@ -150,7 +152,7 @@ blue_coords=[]
 red_dot=[]
 red_coords=[]
 
-
+#main loop
 while running:
     
     for event in pygame.event.get():
@@ -171,13 +173,13 @@ while running:
 
                     
                     if point_blue not in blue_coords:
-                        blue_coords.append(point_blue)
+                        blue_coords.append(point_blue)# I'm really thinking if is really necessary to have an specif array for the coords, this was made in a pretty early stage
                         blue_dot.append(punto_blue)
                         punto_blue.draw(window)
                     else:
                         print('not valid')
                  
-                        
+                #same shit        
                 if keys[pygame.K_k]:
                     
                     punto_red = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4,True ,[],[],[])
@@ -193,17 +195,35 @@ while running:
 
 
             if button1.clicked(mouse_pos):
-                #check this, it is not working as expected, look at the rules
                 print('clicked' )
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
-                game.neighboar_checking() 
-                
+        
+                #I was just trying how did the state atributes worked, it worked pretty well
+                #I got some issue trying some stuff with the rules, that's mostly the purpose of my desmotivation
                 for b_dot, r_dot in zip(blue_dot, red_dot):
+                    game.neighboar_checking() 
                     b_dot.point_state()
                     r_dot.point_state()
                     
+                    if b_dot.state:
+                        print('alive')
+                    else:
+                        game.blue_coords.remove([b_dot.x,b_dot.y])
+                        b_dot.remove(window)
+                        
+                    
+                    if r_dot.state:
+                        print('alive')
+                    else:
+                        game.red_coords.remove([r_dot.x,r_dot.y])
+                        r_dot.remove(window)
+                    
+
+                        
+                                        
                     print(b_dot.state)  
                     print(r_dot.state)
+                    pygame.display.update()
                 
 
                         
