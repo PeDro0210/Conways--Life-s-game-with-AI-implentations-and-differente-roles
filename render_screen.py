@@ -150,7 +150,6 @@ blue_coords=[]
 red_dot=[]
 red_coords=[]
 
-
 while running:
     
     for event in pygame.event.get():

@@ -54,5 +54,10 @@ class bluedot(dot):
         super().__init__(x, y, R, G, B, radius,state, neighbor,dif_neighbors, coords_around)
 
 class reddot(dot):
+
     def __init__(self, x, y, R, G, B, radius,state, neighbor, dif_neighbors, coords_around):
         super().__init__(x, y, R, G, B, radius,state, neighbor, dif_neighbors, coords_around)
+
+    def __init__(self, x, y, R, G, B, radius, neighbor_coords, dif_neighbors):
+        super().__init__(x, y, R, G, B, radius, neighbor_coords, dif_neighbors)
+
