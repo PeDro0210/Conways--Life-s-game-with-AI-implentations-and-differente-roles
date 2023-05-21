@@ -125,5 +125,6 @@ class game_of_life:
                 display_coords.append([x, y])
                 x += 10
         
+
             
         return display_coords
