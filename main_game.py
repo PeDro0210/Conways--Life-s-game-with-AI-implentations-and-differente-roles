@@ -61,11 +61,14 @@ while True:
             if button1.clicked(mouse_pos):
                 print('clicked' )
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
-        
+                game.neighboar_checking() #dude, leave this here, it would start with the main loop    
                 #I was just trying how did the state atributes worked, it worked pretty well
-                #I got some issue trying some stuff with the rules, that's mostly the purpose of my desmotivation
-                for b_dot, r_dot in zip(blue_dot, red_dot):
-                    game.neighboar_checking() 
+
+                game.inteserction_betwean_dots_blue()
+
+
+                
+                for b_dot, r_dot in zip(game.blue_dots, game.red_dots):  
                     b_dot.point_state()
                     r_dot.point_state()
                     
@@ -81,10 +84,9 @@ while True:
                     else:
                         game.red_coords.remove([r_dot.x,r_dot.y])
                         r_dot.remove(window)
-         
-                    print(b_dot.state)  
-                    print(r_dot.state)
-                    pygame.display.update()
-    MiniGrid.draw(grid, window)
-    pygame.display.update()
 
+                        
+
+                    
+    MiniGrid.draw(grid, window) 
+    pygame.display.update()

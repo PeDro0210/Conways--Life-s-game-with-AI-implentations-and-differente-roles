@@ -128,3 +128,41 @@ class game_of_life:
 
             
         return display_coords
+    
+    def inteserction_betwean_dots_blue(self):# dunno what does this do (I did this in a crisis)
+        for blue_dot in self.blue_dots:
+            if len(blue_dot.same_neigbor)==2:
+                first_arround=blue_dot.coords_arround[0]
+                second_arround=None
+                third_arround=None
+
+                for neighboars in  blue_dot.same_neigbor:
+                    for neighboar_coords in neighboars.coords_arround:
+                        if neighboar_coords not in first_arround:
+                            second_arround=neighboar_coords
+                        if neighboar_coords not in first_arround and neighboar_coords not in second_arround:
+                            third_arround=neighboar_coords
+
+
+                intersection = [value for value in first_arround if value in second_arround if value in third_arround]
+                
+                return intersection
+            
+    def inteserction_betwean_dots_red(self):# dunno what does this do (I did this in a crisis)
+        for red_dot in self.red_dots:
+            if len(red_dot.same_neigbor)==2:
+                first_arround=red_dot.coords_arround[0]
+                second_arround=None
+                third_arround=None
+
+                for neighboars in red_dot.same_neigbor:
+                    for neighboar_coords in neighboars.coords_arround:
+                        if neighboar_coords not in first_arround:
+                            second_arround=neighboar_coords
+                        if neighboar_coords not in first_arround and neighboar_coords not in second_arround:
+                            third_arround=neighboar_coords
+
+
+                intersection = [value for value in first_arround if value in second_arround if value in third_arround]
+                
+                return intersection

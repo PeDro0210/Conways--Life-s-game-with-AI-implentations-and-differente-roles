@@ -38,7 +38,7 @@ class dot:
         return display_coords
 
     def point_state(self):
-        if len(self.same_neigbor) >= 2 and len(self.same_neigbor) <= 3:
+        if len(self.same_neigbor) ==2 or len(self.same_neigbor) ==3:
             self.state = True
         else:
             self.state = False
@@ -60,3 +60,4 @@ class bluedot(dot):
 class reddot(dot):
     def __init__(self, x, y, R, G, B, radius,state, neighbor, dif_neighbors, coords_around):
         super().__init__(x, y, R, G, B, radius,state, neighbor, dif_neighbors, coords_around)
+
