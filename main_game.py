@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from dot_classes import reddot, bluedot
 from game_classes import MiniGrid, button, game_of_life  
+import random as rd
 
 
 grid= MiniGrid(10, 1920/16, 1080/8)
@@ -64,11 +65,21 @@ while True:
                 game.neighboar_checking() #dude, leave this here, it would start with the main loop    
                 #I was just trying how did the state atributes worked, it worked pretty well
 
-                game.inteserction_betwean_dots_blue()
 
 
+                for b_dot, r_dot in zip(game.blue_dots, game.red_dots):
                 
-                for b_dot, r_dot in zip(game.blue_dots, game.red_dots):  
+                    intersection=game.inteserction_betwean_dots_blue(b_dot)        
+                    if None != intersection: 
+                        for j in intersection:
+                            print(j)
+                            
+                            new_dot=bluedot(j[0],j[1],0,0,255,4,True,[],[],[])
+                            game.blue_dots.append(new_dot)
+                            game.blue_coords.append([new_dot.x,new_dot.y])
+                            new_dot.draw(window)
+                            
+                                 
                     b_dot.point_state()
                     r_dot.point_state()
                     

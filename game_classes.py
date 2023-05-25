@@ -129,40 +129,46 @@ class game_of_life:
             
         return display_coords
     
-    def inteserction_betwean_dots_blue(self):# dunno what does this do (I did this in a crisis)
-        for blue_dot in self.blue_dots:
-            if len(blue_dot.same_neigbor)==2:
-                first_arround=blue_dot.coords_arround[0]
-                second_arround=None
-                third_arround=None
+    def inteserction_betwean_dots_blue(self,blue_dot):# dunno what does this do (I did this in a crisis)
+        # I need to see the how are the intersections working
+        if len(blue_dot.same_neigbor)==2:
+            first_arround=blue_dot.coords_arround[0]
+            second_arround=[]
+            third_arround=[]
 
-                for neighboars in  blue_dot.same_neigbor:
-                    for neighboar_coords in neighboars.coords_arround:
-                        if neighboar_coords not in first_arround:
-                            second_arround=neighboar_coords
-                        if neighboar_coords not in first_arround and neighboar_coords not in second_arround:
-                            third_arround=neighboar_coords
-
-
-                intersection = [value for value in first_arround if value in second_arround if value in third_arround]
-                
-                return intersection
+            print(first_arround)
+            for counter,neighboars in enumerate(blue_dot.same_neigbor): #gracias juande, ahveces las cosas viejas
+                for neighboar_coords in neighboars.coords_arround:
+                    print(counter)
+                    if counter <=0:
+                        second_arround=neighboar_coords
+                        break
+                    if counter <=1:
+                        third_arround=neighboar_coords
+                        break
+  
+        
+            intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.blue_coords]
             
-    def inteserction_betwean_dots_red(self):# dunno what does this do (I did this in a crisis)
-        for red_dot in self.red_dots:
-            if len(red_dot.same_neigbor)==2:
-                first_arround=red_dot.coords_arround[0]
-                second_arround=None
-                third_arround=None
+            return intersection
+        
+    def inteserction_betwean_dots_red(self,red_dot):#rewrite all of this for the red dots
+        if len(red_dot.same_neigbor)==2:
+            first_arround=red_dot.coords_arround[0]
+            second_arround=None
+            third_arround=None
 
-                for neighboars in red_dot.same_neigbor:
-                    for neighboar_coords in neighboars.coords_arround:
-                        if neighboar_coords not in first_arround:
-                            second_arround=neighboar_coords
-                        if neighboar_coords not in first_arround and neighboar_coords not in second_arround:
-                            third_arround=neighboar_coords
+            for neighboars in red_dot.same_neigbor:
+                for neighboar_coords in neighboars.coords_arround:
+                    if neighboar_coords not in first_arround:
+                        second_arround=neighboar_coords
+                    if neighboar_coords not in second_arround:
+                        third_arround=neighboar_coords
 
+            print(first_arround)
+            print(second_arround)
+            print(third_arround)
 
-                intersection = [value for value in first_arround if value in second_arround if value in third_arround]
-                
-                return intersection
+            intersection = [value for value in first_arround if value in second_arround and third_arround if value not in self.red_coords]
+            
+            return intersection
