@@ -8,7 +8,7 @@
                 new_gen_red=[]
                 new_gen_coords_red=[]
 
-                for b_dot, r_dot in zip(game.blue_dots, game.red_dots):
+                for b_dot, r_dot in zip_longest(game.blue_dots, game.red_dots):
                     
                     
                     
@@ -56,10 +56,10 @@
                         else:
                             pass
 
-                for new_blue, new_b_coords in zip(new_gen_blue, new_gen_coords_blue):
+                for new_blue, new_b_coords in zip_longest(new_gen_blue, new_gen_coords_blue):
                     game.blue_dots.append(new_blue)
                     game.blue_coords.append(new_b_coords)
                 
-                for new_red, new_r_coords in zip(new_gen_red, new_gen_coords_red):
+                for new_red, new_r_coords in zip_longest(new_gen_red, new_gen_coords_red):
                     game.red_dots.append(new_red)
                     game.red_coords.append(new_r_coords)

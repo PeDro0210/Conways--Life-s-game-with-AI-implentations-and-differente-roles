@@ -1,6 +1,7 @@
 import pygame
 import random as rd #this is also provisional
 
+
 #not alot in here, just the class, but all of this things work fine.
 class dot:
     
@@ -48,8 +49,8 @@ class dot:
     def remove(self,window):
         pygame.draw.circle(window, (255,255,255), (self.x, self.y), self.radius)
 
-        self.x = 1000+rd.randint(rd.randint(0,13),1000)# this is provisional, I have to find a better way to take out the points
-        self.y = 1000+rd.randint(rd.randint(0,10),1000)# this is provisional, I have to find a better way to take out the points
+        self.x = 500
+        self.y = 500 
 
 
 

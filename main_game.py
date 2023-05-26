@@ -1,19 +1,24 @@
 import pygame
 from pygame.locals import *
-from dot_classes import reddot, bluedot
+from dot_classes import reddot, bluedot, dot
 from game_classes import MiniGrid, button, game_of_life  
+from itertools import zip_longest
 
 grid= MiniGrid(10, 1920/16, 1080/8)
 window=pygame.display.set_mode((1920,1080))
 background=pygame.draw.rect(window,(255,255,255),(0,0,1920,1080),0)
 button1=button(350,825,50,0,0,0)
 
-blue_dot=[]
+
+#I have to fix the zip function
+
+blue_dot=[] 
 blue_coords=[]
 red_dot=[]
 red_coords=[]
 
-
+fill_value_dot=dot(0,0,150,150,150,0,True,[],[],[])
+fill_value_coord=[0,0]
 
 #main loop  
 while True:
@@ -75,8 +80,11 @@ while True:
                 erase_coords_red=[]
                 
 
-                for b_dot, r_dot in zip(game.blue_dots, game.red_dots):
+                for b_dot, r_dot in zip_longest(game.blue_dots, game.red_dots, fillvalue=fill_value_dot):
                     
+                    print(b_dot.x, b_dot.y)
+                    for wtf_dot in b_dot.same_neigbor:
+                       wtf_dot.draw(window)
                     
                     
                     
@@ -89,6 +97,7 @@ while True:
                             new_gen_blue.append(new_dot_b)
                             new_gen_coords_blue.append([new_dot_b.x,new_dot_b.y])
                             draw=new_dot_b.draw(window)
+                            print(new_dot_b.same_neigbor)
                             
                     
                     if None != intersection_r:
@@ -97,6 +106,8 @@ while True:
                             new_gen_red.append(new_dot_r)
                             new_gen_coords_red.append([new_dot_r.x,new_dot_r.y])
                             draw_2=new_dot_r.draw(window)
+                            print(new_dot_b.same_neigbor)
+                            
 
                     b_dot.point_state()
                     r_dot.point_state()
@@ -115,30 +126,41 @@ while True:
                         erase_red.append(r_dot)
                         erase_coords_red.append([r_dot.x,r_dot.y])
                         r_dot.remove(window)
-                    
-                print('Done')
+                
+                
 
-                for new_blue, new_b_coords in zip(new_gen_blue, new_gen_coords_blue):
+                for new_blue in new_gen_blue:
                     game.blue_dots.append(new_blue)
+
+                for new_b_coords in new_gen_coords_blue:
                     game.blue_coords.append(new_b_coords)
-                
-                for new_red, new_r_coords in zip(new_gen_red, new_gen_coords_red):
+
+                for new_red in new_gen_red:
                     game.red_dots.append(new_red)
+
+                for new_r_coords in new_gen_coords_red:
                     game.red_coords.append(new_r_coords)
-                    
-                for erase_b, erase_b_coords in zip(erase_blue, erase_coords_blue):
-                    game.blue_dots.remove(erase_b)
-                    game.blue_coords.remove(erase_b_coords)
-                
-                for erase_r, erase_r_coords in zip(erase_red, erase_coords_red):
-                    game.red_dots.remove(erase_r)
-                    game.red_coords.remove(erase_r_coords)
+
+                for erase_b in erase_blue:
+                    if erase_b in game.blue_dots:
+                        game.blue_dots.remove(erase_b)
+
+                for erase_b_coords in erase_coords_blue:
+                    if erase_b_coords in game.blue_coords:
+                        game.blue_coords.remove(erase_b_coords)
+
+                for erase_r in erase_red:
+                    if erase_r in game.red_dots:
+                        game.red_dots.remove(erase_r)
+
+                for erase_r_coords in erase_coords_red:
+                    if erase_r_coords in game.red_coords:
+                        game.red_coords.remove(erase_r_coords)
+
+
                 
                 print('dots erase')
                 
-                print(game.blue_dots)
-                print(game.red_dots)
-
                     
                     
 

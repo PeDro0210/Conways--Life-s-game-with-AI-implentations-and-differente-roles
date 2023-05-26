@@ -1,4 +1,9 @@
 import pygame
+from itertools import zip_longest
+from dot_classes import dot
+
+fill_value_dot=dot(0,0,150,150,150,0,True,[],[],[])
+fill_value_coord=[0,0]
 
 class MiniGrid: #don't worry about the grid, this is the things that works the best
     def __init__(self, cell_size, width, height):
@@ -82,7 +87,7 @@ class game_of_life:
 
     #it has to be the same number of blue dots and red dots
     def neighboar_checking(self):
-        for b_dot, r_dot in zip(self.blue_dots, self.red_dots):
+        for b_dot, r_dot in zip_longest(self.blue_dots, self.red_dots, fillvalue=fill_value_dot):
             
             coords = self.coord_detection(b_dot)#from the coords_detection fun, we get the coords of the 9 points around the dot (inlcuding the dot itself)
             coords.remove(coords[4])#here we remove the dot
@@ -94,9 +99,9 @@ class game_of_life:
             
             
             
-            for b_coord, r_coord in zip(coords, coords2):
+            for b_coord, r_coord in zip_longest(coords, coords2, fillvalue=fill_value_coord):
                 
-                for blue_dot,red_dot in zip(self.blue_dots,self.red_dots):
+                for blue_dot,red_dot in zip_longest(self.blue_dots,self.red_dots, fillvalue=fill_value_dot):
 
                     if blue_dot.x == b_coord[0] and blue_dot.y == b_coord[1]:#in the case that the dot in the iteration, is has the coords bewteen the coords around the dot
                         b_dot.same_neigbor.append(blue_dot)#it adds it in the neighbor list of the dot
