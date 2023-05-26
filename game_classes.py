@@ -90,7 +90,7 @@ class game_of_life:
             
             coords2 = self.coord_detection(r_dot)#same process for the red dot
             coords2.remove(coords2[4])
-            r_dot.coords_arround.append(coords)
+            r_dot.coords_arround.append(coords2)
             
             
             
@@ -136,39 +136,46 @@ class game_of_life:
             second_arround=[]
             third_arround=[]
 
-            print(first_arround)
+
             for counter,neighboars in enumerate(blue_dot.same_neigbor): #gracias juande, ahveces las cosas viejas
                 for neighboar_coords in neighboars.coords_arround:
-                    print(counter)
                     if counter <=0:
                         second_arround=neighboar_coords
                         break
                     if counter <=1:
                         third_arround=neighboar_coords
                         break
-  
+            
         
             intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.blue_coords]
             
-            return intersection
+            if len(intersection)!=0:
+                return intersection[0]
+            else:
+                
+                return None
         
     def inteserction_betwean_dots_red(self,red_dot):#rewrite all of this for the red dots
         if len(red_dot.same_neigbor)==2:
+            
+            
             first_arround=red_dot.coords_arround[0]
             second_arround=None
             third_arround=None
 
-            for neighboars in red_dot.same_neigbor:
+            for counter,neighboars in enumerate(red_dot.same_neigbor): #gracias juande, ahveces las cosas viejas
                 for neighboar_coords in neighboars.coords_arround:
-                    if neighboar_coords not in first_arround:
+                    if counter <=0:
                         second_arround=neighboar_coords
-                    if neighboar_coords not in second_arround:
+                        break
+                    if counter <=1:
                         third_arround=neighboar_coords
-
-            print(first_arround)
-            print(second_arround)
-            print(third_arround)
-
-            intersection = [value for value in first_arround if value in second_arround and third_arround if value not in self.red_coords]
+                        break
             
-            return intersection
+
+            intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.red_coords]
+            
+            if len(intersection)!=0:
+                return intersection[0]
+            else:
+                return None

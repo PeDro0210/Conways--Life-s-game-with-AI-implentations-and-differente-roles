@@ -17,7 +17,7 @@ class dot:
         
     def draw(self, window):
         pygame.draw.circle(window, self.color, (self.x, self.y), self.radius)
-    
+        return True
     
     def center_snap(self, coords):
         self.x, self.y = coords 
