@@ -147,10 +147,10 @@ class game_of_life:
                         break
             
         
-            intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.blue_coords]
+            intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.blue_coords]#see intersections for
             
             if len(intersection)!=0:
-                return intersection[0]
+                return intersection
             else:
                 
                 return None
@@ -176,6 +176,6 @@ class game_of_life:
             intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.red_coords]
             
             if len(intersection)!=0:
-                return intersection[0]
+                return intersection
             else:
                 return None
