@@ -68,6 +68,12 @@ while True:
                 new_gen_coords_blue=[]
                 new_gen_red=[]
                 new_gen_coords_red=[]
+                
+                erase_blue=[]
+                erase_coords_blue=[]
+                erase_red=[]
+                erase_coords_red=[]
+                
 
                 for b_dot, r_dot in zip(game.blue_dots, game.red_dots):
                     
@@ -80,7 +86,6 @@ while True:
                     if None != intersection: 
                         for j in intersection:
                             new_dot_b=bluedot(j[0],j[1],0,0,255,4,True,[],[],[])
-                            print(new_dot_b.x,new_dot_b.y)
                             new_gen_blue.append(new_dot_b)
                             new_gen_coords_blue.append([new_dot_b.x,new_dot_b.y])
                             draw=new_dot_b.draw(window)
@@ -89,7 +94,6 @@ while True:
                     if None != intersection_r:
                         for i in intersection_r:
                             new_dot_r=reddot(i[0],i[1],255,0,0,4,True,[],[],[])
-                            print(new_dot_r.x,new_dot_r.y)
                             new_gen_red.append(new_dot_r)
                             new_gen_coords_red.append([new_dot_r.x,new_dot_r.y])
                             draw_2=new_dot_r.draw(window)
@@ -101,21 +105,18 @@ while True:
                     if b_dot.state:
                         pass
                     else:
-                        if [b_dot.x,b_dot.y] in game.blue_coords:
-                            game.blue_coords.remove([b_dot.x,b_dot.y])
-                            b_dot.remove(window)
-                        else:
-                            pass
-                        
+                        erase_blue.append(b_dot)
+                        erase_coords_blue.append([b_dot.x,b_dot.y])
+                        b_dot.remove(window)
                     
                     if r_dot.state:
                         pass
                     else:
-                        if [r_dot.x,r_dot.y] in game.red_coords:
-                            game.red_coords.remove([r_dot.x,r_dot.y])
-                            r_dot.remove(window)
-                        else:
-                            pass
+                        erase_red.append(r_dot)
+                        erase_coords_red.append([r_dot.x,r_dot.y])
+                        r_dot.remove(window)
+                    
+                print('Done')
 
                 for new_blue, new_b_coords in zip(new_gen_blue, new_gen_coords_blue):
                     game.blue_dots.append(new_blue)
@@ -125,6 +126,18 @@ while True:
                     game.red_dots.append(new_red)
                     game.red_coords.append(new_r_coords)
                     
+                for erase_b, erase_b_coords in zip(erase_blue, erase_coords_blue):
+                    game.blue_dots.remove(erase_b)
+                    game.blue_coords.remove(erase_b_coords)
+                
+                for erase_r, erase_r_coords in zip(erase_red, erase_coords_red):
+                    game.red_dots.remove(erase_r)
+                    game.red_coords.remove(erase_r_coords)
+                
+                print('dots erase')
+                
+                print(game.blue_dots)
+                print(game.red_dots)
 
                     
                     
