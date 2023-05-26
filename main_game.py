@@ -76,7 +76,7 @@ while True:
                     intersection_r=game.inteserction_betwean_dots_red(r_dot)
                     
                     
-                    if None != intersection and intersection_r != None: 
+                    if None != intersection: 
                         print(intersection) 
                         new_dot_b=bluedot(intersection[0],intersection[1],0,0,255,4,True,[],[],[])
                         print(new_dot_b.x,new_dot_b.y)
@@ -96,8 +96,8 @@ while True:
                         print(draw_2)
                     
                     
-                    b_dot.point_state()#this is conflicting with the new generations
-                    r_dot.point_state()#this is conflicting with the new generations
+                    # b_dot.point_state()#this is conflicting with the new generations
+                    # r_dot.point_state()#this is conflicting with the new generations
              
 
                     if b_dot.state:
