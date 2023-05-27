@@ -3,12 +3,13 @@ from pygame.locals import *
 from dot_classes import reddot, bluedot, dot
 from game_classes import MiniGrid, button, game_of_life  
 from itertools import zip_longest
+import time
 
 grid= MiniGrid(10, 1920/16, 1080/8)
 window=pygame.display.set_mode((1920,1080))
 background=pygame.draw.rect(window,(255,255,255),(0,0,1920,1080),0)
 button1=button(350,825,50,0,0,0)
-
+running_main_loop=False
 
 #I have to fix the zip function
 
@@ -30,7 +31,7 @@ while True:
         mouse_pos = pygame.mouse.get_pos()
         button1.draw(window)
         
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN or running_main_loop==True:
             
             if grid.clicked_death_point(mouse_pos,window):
                 keys=pygame.key.get_pressed()
@@ -62,11 +63,14 @@ while True:
 
 
 
-            if button1.clicked(mouse_pos):
+            if button1.clicked(mouse_pos) or running_main_loop==True:
+                running_main_loop=True
+                time.sleep(0.5)
                 print('clicked' )
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
-                game.neighboar_checking() #dude, leave this here, it would start with the main loop    
-                #I was just trying how did the state atributes worked, it worked pretty well
+                game.neighboar_checking()#I have to check how to take out neighboars from creator points
+                
+                
 
             
                 new_gen_blue=[]
@@ -82,9 +86,7 @@ while True:
 
                 for b_dot, r_dot in zip_longest(game.blue_dots, game.red_dots, fillvalue=fill_value_dot):
                     
-                    print(b_dot.x, b_dot.y)
-                    for wtf_dot in b_dot.same_neigbor:
-                       wtf_dot.draw(window)
+
                     
                     
                     
@@ -97,7 +99,6 @@ while True:
                             new_gen_blue.append(new_dot_b)
                             new_gen_coords_blue.append([new_dot_b.x,new_dot_b.y])
                             draw=new_dot_b.draw(window)
-                            print(new_dot_b.same_neigbor)
                             
                     
                     if None != intersection_r:
@@ -106,13 +107,16 @@ while True:
                             new_gen_red.append(new_dot_r)
                             new_gen_coords_red.append([new_dot_r.x,new_dot_r.y])
                             draw_2=new_dot_r.draw(window)
-                            print(new_dot_b.same_neigbor)
                             
 
                     b_dot.point_state()
                     r_dot.point_state()
-            
+                    
+                    
 
+                
+                
+                for b_dot, r_dot in zip_longest(game.blue_dots, game.red_dots, fillvalue=fill_value_dot):
                     if b_dot.state:
                         pass
                     else:
@@ -126,6 +130,8 @@ while True:
                         erase_red.append(r_dot)
                         erase_coords_red.append([r_dot.x,r_dot.y])
                         r_dot.remove(window)
+                
+                #create a way to take out the neighboars from all the points, I need everything to be blank for the erase points
                 
                 
 
@@ -159,7 +165,11 @@ while True:
 
 
                 
-                print('dots erase')
+                for b_dot, r_dot in zip_longest(game.blue_dots, game.red_dots, fillvalue=fill_value_dot):
+                    b_dot.coords_neigbor=[]
+                    r_dot.coords_neigbor=[]
+                    b_dot.same_neigbor=[]
+                    r_dot.same_neigbor=[]
                 
                     
                     
