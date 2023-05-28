@@ -88,33 +88,45 @@ class game_of_life:
     #it has to be the same number of blue dots and red dots
     def neighboar_checking(self):
         for b_dot, r_dot in zip_longest(self.blue_dots, self.red_dots, fillvalue=fill_value_dot):
-            
-            coords = self.coord_detection(b_dot)#from the coords_detection fun, we get the coords of the 9 points around the dot (inlcuding the dot itself)
-            coords.remove(coords[4])#here we remove the dot
-            b_dot.coords_arround.append(coords)#for playin with the coords around it after we put it in one of the object attributes
-            
-            coords2 = self.coord_detection(r_dot)#same process for the red dot
+
+            coords = self.coord_detection(b_dot)
+            coords.remove(coords[4])
+            b_dot.coords_arround.append(coords)
+
+            coords2 = self.coord_detection(r_dot)
             coords2.remove(coords2[4])
             r_dot.coords_arround.append(coords2)
-            
-            
-            
+
+            dots_added = []
+
             for b_coord, r_coord in zip_longest(coords, coords2, fillvalue=fill_value_coord):
-                
-                for blue_dot,red_dot in zip_longest(self.blue_dots,self.red_dots, fillvalue=fill_value_dot):
-                
-                    if blue_dot.x == b_coord[0] and blue_dot.y == b_coord[1]:#in the case that the dot in the iteration, is has the coords bewteen the coords around the dot
-                        b_dot.same_neigbor.append(blue_dot)#it adds it in the neighbor list of the dot
+
+                for blue_dot, red_dot in zip_longest(self.blue_dots, self.red_dots, fillvalue=fill_value_dot):
+
+                    if blue_dot not in b_dot.same_neigbor and blue_dot not in dots_added:
+                        if blue_dot.x == b_coord[0] and blue_dot.y == b_coord[1]:
+                            dots_added.append(blue_dot)
+                            b_dot.same_neigbor.append(blue_dot)
+
+                        if red_dot.x == b_coord[0] and red_dot.y == b_coord[1]:
+                            dots_added.append(red_dot)
+                            b_dot.different_neighbors.append(red_dot)
+
+                    if red_dot not in r_dot.same_neigbor and red_dot not in dots_added:
+                        if red_dot.x == r_coord[0] and red_dot.y == r_coord[1]:
+                            dots_added.append(red_dot)
+                            r_dot.same_neigbor.append(red_dot)
+
+                        if blue_dot.x == r_coord[0] and blue_dot.y == r_coord[1]:
+                            dots_added.append(blue_dot)
+                            r_dot.different_neighbors.append(blue_dot)
+    
+
+            
                     
-                    if red_dot.x == b_coord[0] and red_dot.y == b_coord[1]:
-                        b_dot.different_neighbors.append(red_dot)#similar process, but in the different neighbor list
+                
 
 
-                    if red_dot.x == r_coord[0] and red_dot.y == r_coord[1]:
-                        r_dot.same_neigbor.append(red_dot)
-                    
-                    if blue_dot.x == r_coord[0] and blue_dot.y == r_coord[1]:
-                        r_dot.different_neighbors.append(blue_dot)
    
 
                 
