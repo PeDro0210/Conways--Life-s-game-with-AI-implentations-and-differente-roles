@@ -47,10 +47,10 @@ class dot:
 
     
     def remove(self,window):
+        #I have to really remove the things
         pygame.draw.circle(window, (255,255,255), (self.x, self.y), self.radius)
+        del self
 
-        self.x = 500
-        self.y = 500 
 
 
 

@@ -102,7 +102,7 @@ class game_of_life:
             for b_coord, r_coord in zip_longest(coords, coords2, fillvalue=fill_value_coord):
                 
                 for blue_dot,red_dot in zip_longest(self.blue_dots,self.red_dots, fillvalue=fill_value_dot):
-
+                
                     if blue_dot.x == b_coord[0] and blue_dot.y == b_coord[1]:#in the case that the dot in the iteration, is has the coords bewteen the coords around the dot
                         b_dot.same_neigbor.append(blue_dot)#it adds it in the neighbor list of the dot
                     

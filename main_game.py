@@ -64,11 +64,16 @@ while True:
 
 
             if button1.clicked(mouse_pos) or running_main_loop==True:
+                pygame.display.update()
                 running_main_loop=True
-                time.sleep(0.5)
+                time.sleep(1.5)
                 print('clicked' )
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
-                game.neighboar_checking()#I have to check how to take out neighboars from creator points
+
+                print(game.blue_dots)
+                game.neighboar_checking()
+                
+                
                 
                 
 
@@ -84,10 +89,9 @@ while True:
                 erase_coords_red=[]
                 
 
-                for b_dot, r_dot in zip_longest(game.blue_dots, game.red_dots, fillvalue=fill_value_dot):
-                    
+                for b_dot, r_dot in zip_longest(blue_dot, red_dot, fillvalue=fill_value_dot):
 
-                    
+                    #sola da problema para un patron, pero para el resto va bastate bien
                     
                     
                     intersection=game.inteserction_betwean_dots_blue(b_dot)     
@@ -98,7 +102,7 @@ while True:
                             new_dot_b=bluedot(j[0],j[1],0,0,255,4,True,[],[],[])
                             new_gen_blue.append(new_dot_b)
                             new_gen_coords_blue.append([new_dot_b.x,new_dot_b.y])
-                            draw=new_dot_b.draw(window)
+                            new_dot_b.draw(window)
                             
                     
                     if None != intersection_r:
@@ -106,17 +110,27 @@ while True:
                             new_dot_r=reddot(i[0],i[1],255,0,0,4,True,[],[],[])
                             new_gen_red.append(new_dot_r)
                             new_gen_coords_red.append([new_dot_r.x,new_dot_r.y])
-                            draw_2=new_dot_r.draw(window)
+                            new_dot_r.draw(window)
                             
 
                     b_dot.point_state()
                     r_dot.point_state()
-                    
-                    
+                                    
+                for new_blue in new_gen_blue:
+                    blue_dot.append(new_blue)
+
+                for new_b_coords in new_gen_coords_blue:
+                    blue_coords.append(new_b_coords)
+
+                for new_red in new_gen_red:
+                    red_dot.append(new_red)
+
+                for new_r_coords in new_gen_coords_red:
+                    red_coords.append(new_r_coords)
 
                 
                 
-                for b_dot, r_dot in zip_longest(game.blue_dots, game.red_dots, fillvalue=fill_value_dot):
+                for b_dot, r_dot in zip_longest(blue_dot, red_dot, fillvalue=fill_value_dot):
                     if b_dot.state:
                         pass
                     else:
@@ -131,46 +145,37 @@ while True:
                         erase_coords_red.append([r_dot.x,r_dot.y])
                         r_dot.remove(window)
                 
-                #create a way to take out the neighboars from all the points, I need everything to be blank for the erase points
+            
                 
                 
 
-                for new_blue in new_gen_blue:
-                    game.blue_dots.append(new_blue)
 
-                for new_b_coords in new_gen_coords_blue:
-                    game.blue_coords.append(new_b_coords)
-
-                for new_red in new_gen_red:
-                    game.red_dots.append(new_red)
-
-                for new_r_coords in new_gen_coords_red:
-                    game.red_coords.append(new_r_coords)
 
                 for erase_b in erase_blue:
-                    if erase_b in game.blue_dots:
-                        game.blue_dots.remove(erase_b)
+                    if erase_b in blue_dot:
+                        blue_dot.remove(erase_b)
 
                 for erase_b_coords in erase_coords_blue:
-                    if erase_b_coords in game.blue_coords:
-                        game.blue_coords.remove(erase_b_coords)
+                    if erase_b_coords in blue_coords:
+                        blue_coords.remove(erase_b_coords)
 
                 for erase_r in erase_red:
-                    if erase_r in game.red_dots:
-                        game.red_dots.remove(erase_r)
+                    if erase_r in red_dot:
+                        red_dot.remove(erase_r)
 
                 for erase_r_coords in erase_coords_red:
-                    if erase_r_coords in game.red_coords:
-                        game.red_coords.remove(erase_r_coords)
+                    if erase_r_coords in red_coords:
+                        red_coords.remove(erase_r_coords)
 
 
                 
-                for b_dot, r_dot in zip_longest(game.blue_dots, game.red_dots, fillvalue=fill_value_dot):
+                for b_dot, r_dot in zip_longest(blue_dot, red_dot, fillvalue=fill_value_dot):
                     b_dot.coords_neigbor=[]
                     r_dot.coords_neigbor=[]
                     b_dot.same_neigbor=[]
                     r_dot.same_neigbor=[]
                 
+                print('finish')
                     
                     
 
@@ -182,3 +187,5 @@ while True:
                     
     MiniGrid.draw(grid, window) 
     pygame.display.update()
+
+
