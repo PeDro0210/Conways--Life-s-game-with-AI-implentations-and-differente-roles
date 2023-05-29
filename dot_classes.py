@@ -39,10 +39,14 @@ class dot:
         return display_coords
 
     def point_state(self):
-        if len(self.same_neigbor) ==2 or len(self.same_neigbor) ==3:
-            self.state = True
+        if len(self.different_neighbors) < 2:
+            if len(self.same_neigbor) ==2 or len(self.same_neigbor) ==3:
+                self.state = True
+            else:
+                self.state = False
         else:
             self.state = False
+
         
 
     

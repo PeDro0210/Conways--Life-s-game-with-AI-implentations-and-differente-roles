@@ -41,11 +41,12 @@ while True:
                     point_blue=punto_blue.center_snap(grid.clicked_death_point(mouse_pos,window)[1:])
 
                     
-                    if point_blue not in blue_coords:
+                    if point_blue not in blue_coords and point_blue not in red_coords:
                         blue_coords.append(point_blue)# I'm really thinking if is really necessary to have an specif array for the coords, this was made in a pretty early stage
                         blue_dot.append(punto_blue)
                         punto_blue.draw(window)
                     else:
+                        del point_blue
                         print('not valid')
                  
                 #same shit        
@@ -54,11 +55,12 @@ while True:
                     punto_red = reddot(mouse_pos, mouse_pos, 255, 0, 0, 4,True ,[],[],[])
                     point_red=punto_red.center_snap(grid.clicked_death_point(mouse_pos,window)[1:])
                           
-                    if point_red not in red_coords:
+                    if point_red not in red_coords and point_red not in blue_coords:
                         red_coords.append(point_red)
                         red_dot.append(punto_red)
                         punto_red.draw(window)
                     else:
+                        del point_red
                         print('not valid')
 
 
@@ -94,37 +96,47 @@ while True:
                     
                     
                     intersection=game.inteserction_betwean_dots_blue(b_dot)     
+                    print(intersection)
                     intersection_r=game.inteserction_betwean_dots_red(r_dot)
                     
                     if None != intersection: 
                         for j in intersection:
                             new_dot_b=bluedot(j[0],j[1],0,0,255,4,True,[],[],[])
-                            print(new_dot_b.x,new_dot_b.y)
-                            if [new_dot_b.x, new_dot_b.y]in new_gen_coords_blue:
+                            game.neighboar_checking_new_gens_blues(new_dot_b)
+                            if [new_dot_b.x, new_dot_b.y]in new_gen_coords_blue or [new_dot_b.x, new_dot_b.y] in new_gen_coords_red:
                                 print('not valid')
                                 del new_dot_b
                             else:
-                                new_gen_blue.append(new_dot_b)
-                                new_gen_coords_blue.append([new_dot_b.x,new_dot_b.y])
-                                new_dot_b.draw(window)
+                                if [new_dot_b.x, new_dot_b.y] in blue_coords or [new_dot_b.x, new_dot_b.y] in red_coords:
+                                    print('not valid')
+                                    del new_dot_b
+                                else:
+                                    new_gen_blue.append(new_dot_b)
+                                    new_gen_coords_blue.append([new_dot_b.x,new_dot_b.y])
+                                    new_dot_b.draw(window)
                             
                     
                     if None != intersection_r:
+                        
                         for i in intersection_r:
                             new_dot_r=reddot(i[0],i[1],255,0,0,4,True,[],[],[])
-                            if [new_dot_r.x, new_dot_r.y] in new_gen_coords_red:
+                            game.neighboar_checking_new_gens_reds(new_dot_r)
+
+                            if [new_dot_r.x, new_dot_r.y] in new_gen_coords_red or [new_dot_r.x, new_dot_r.y] in new_gen_coords_blue:
                                 del new_dot_r
                             else:
+                                if [new_dot_r.x, new_dot_r.y] in blue_coords or [new_dot_r.x, new_dot_r.y] in red_coords:
+                                    print('not valid')
+                                    del new_dot_r
+                                else:
+                                    new_gen_red.append(new_dot_r)
+                                    new_gen_coords_red.append([new_dot_r.x,new_dot_r.y])
+                                    new_dot_r.draw(window)
 
-                                new_gen_red.append(new_dot_r)
-                                new_gen_coords_red.append([new_dot_r.x,new_dot_r.y])
-                                new_dot_r.draw(window)
-                            
 
                     b_dot.point_state()
                     r_dot.point_state()
                 
-                print(new_gen_blue)
                                     
                 for new_blue in new_gen_blue:
                     if new_blue in blue_dot:
@@ -150,7 +162,7 @@ while True:
                         pass
                     else:
                         red_coords.append(new_r_coords)
-
+            
                 
                 
                 for b_dot, r_dot in zip_longest(blue_dot, red_dot, fillvalue=fill_value_dot):
