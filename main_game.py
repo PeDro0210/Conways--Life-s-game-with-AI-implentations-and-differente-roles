@@ -5,13 +5,19 @@ from game_classes import MiniGrid, button, game_of_life
 from itertools import zip_longest
 import time
 
+
+#have some optimization issues 
+
 grid= MiniGrid(10, 1920/16, 1080/8)
-window=pygame.display.set_mode((1920,1080))
+window=pygame.display.set_mode((1920,1080),pygame.DOUBLEBUF)
 background=pygame.draw.rect(window,(255,255,255),(0,0,1920,1080),0)
 button1=button(350,825,50,0,0,0)
 running_main_loop=False
+cloc_ticks=pygame.time.Clock()
 
-#I have to fix the zip function
+
+
+
 
 blue_dot=[] 
 blue_coords=[]
@@ -21,8 +27,10 @@ red_coords=[]
 fill_value_dot=dot(10000,10000,150,150,150,0,True,[],[],[])
 fill_value_coord=[10000,10000]
 
+MiniGrid.draw(grid, window) 
 #main loop  
 while True:
+    cloc_ticks.tick(60)
     
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
@@ -47,8 +55,7 @@ while True:
                         punto_blue.draw(window)
                     else:
                         del point_blue
-                        print('not valid')
-                 
+
                 #same shit        
                 if keys[pygame.K_k]:
                     
@@ -61,7 +68,6 @@ while True:
                         punto_red.draw(window)
                     else:
                         del point_red
-                        print('not valid')
 
 
 
@@ -69,9 +75,7 @@ while True:
                 pygame.display.update()
                 running_main_loop=True
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
-
                 time.sleep(1.5)
-                print('clicked' )
                 game.neighboar_checking()
                 
                 
@@ -104,11 +108,9 @@ while True:
                                                         
                             if len(new_dot_b.same_neigbor)<=3:    
                                 if [new_dot_b.x, new_dot_b.y]in new_gen_coords_blue or [new_dot_b.x, new_dot_b.y] in new_gen_coords_red:
-                                        print('not valid')
                                         del new_dot_b
                                 else:
                                     if [new_dot_b.x, new_dot_b.y] in blue_coords or [new_dot_b.x, new_dot_b.y] in red_coords:
-                                        print('not valid')
                                         del new_dot_b
                                     else:
                                         new_gen_blue.append(new_dot_b)
@@ -129,7 +131,6 @@ while True:
                                     del new_dot_r   
                                 else:
                                     if [new_dot_r.x, new_dot_r.y] in blue_coords or [new_dot_r.x, new_dot_r.y] in red_coords:
-                                        print('not valid')
                                         del new_dot_r
                                     else:
                                         new_gen_red.append(new_dot_r)
@@ -184,11 +185,6 @@ while True:
                         erase_red.append(r_dot)
                         erase_coords_red.append([r_dot.x,r_dot.y])
                         r_dot.remove(window)
-                
-            
-                
-                
-
 
 
                 for erase_b in erase_blue:
@@ -207,25 +203,13 @@ while True:
                     if erase_r_coords in red_coords:
                         red_coords.remove(erase_r_coords)
 
-
-                
                 for b_dot, r_dot in zip_longest(blue_dot, red_dot, fillvalue=fill_value_dot):
                     b_dot.coords_neigbor=[]
                     r_dot.coords_neigbor=[]
                     b_dot.same_neigbor=[]
                     r_dot.same_neigbor=[]
                 
-                print('finish')
-                    
-                    
 
-
-
-
-                        
-
-                    
-    MiniGrid.draw(grid, window) 
     pygame.display.update()
 
 
