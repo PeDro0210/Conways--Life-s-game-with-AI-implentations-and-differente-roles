@@ -165,18 +165,7 @@ class game_of_life:
                         if blue_dot.x == r_coord[0] and blue_dot.y == r_coord[1]:
                             dots_added.append(blue_dot)
                             r_dot.different_neighbors.append(blue_dot)
-
-
-
-            
-                    
-                
-
-
-   
-
-                
-                    
+          
     def coord_detection(self,dot):
         
         #this is so perfect really, I'm so proud of myself
@@ -192,50 +181,56 @@ class game_of_life:
             
         return display_coords
     
+    
+    
     def inteserction_betwean_dots_blue(self,blue_dot):# last stepping stone (i have to look for all the neighbors and there possible intersections between all of them)
-        
-        if len(blue_dot.same_neigbor)==2:
-            first_arround=blue_dot.coords_arround[0]
-            second_arround=None
-            third_arround=None
+        if len(blue_dot.same_neigbor)<=8: #you did a good aproach, I thing you just need to debug this an that's it
+            
+            if blue_dot.coords_arround != []:
+                first_arround=blue_dot.coords_arround[0]
+                intersections=[]
+                last_intersection=[]
+                
+                for neighboars in blue_dot.same_neigbor:
+                    for neighboars_2 in blue_dot.same_neigbor:
+                        if neighboars.coords_arround[0]!=neighboars_2.coords_arround[0]:
+                            possible_intersection=[value for value in first_arround if value in neighboars_2.coords_arround[0] and value in neighboars.coords_arround[0] and value not in self.blue_coords and value not in self.red_coords]
+                            intersections.append(possible_intersection)
+                
+                
+                for intersection in intersections:
+                    for mini_intersection in intersection:
+                        last_intersection.append(mini_intersection)
 
-            for counter,neighboars in enumerate(blue_dot.same_neigbor):
-                for neighboar_coords in neighboars.coords_arround:
-                    if counter <=0:
-                        second_arround=neighboar_coords
-                        break
-                    if counter <=1:
-                        third_arround=neighboar_coords
-                        break
-            intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.red_coords]
-
-            if len(intersection)!=0:
-                return intersection
+                if len(intersections)!=0:
+                    return last_intersection
+                else:
+                    return None
             else:
                 return None
-            
     def inteserction_betwean_dots_red(self,red_dot):#rewrite all of this for the red dots
         
-        if len(red_dot.same_neigbor)==2:
-            
-            
-            first_arround=red_dot.coords_arround[0]
-            second_arround=None
-            third_arround=None
+        if len(red_dot.same_neigbor)<=8: #you did a good aproach, I thing you just need to debug this an that's it
+        
+            if red_dot.coords_arround!=[]:
+                first_arround=red_dot.coords_arround[0]
+                intersections=[]
+                last_intersection=[]
+                
+                for neighboars in red_dot.same_neigbor:
+                    for neighboars_2 in red_dot.same_neigbor:
+                        if neighboars.coords_arround[0]!=neighboars_2.coords_arround[0]:
+                            possible_intersection=[value for value in first_arround if value in neighboars_2.coords_arround[0] and value in neighboars.coords_arround[0] and value not in self.blue_coords and value not in self.red_coords]
+                            intersections.append(possible_intersection)
+                
+                
+                for intersection in intersections:
+                    for mini_intersection in intersection:
+                        last_intersection.append(mini_intersection)
 
-            for counter,neighboars in enumerate(red_dot.same_neigbor): #gracias juande, ahveces las cosas viejas
-                for neighboar_coords in neighboars.coords_arround:
-                    if counter <=0:
-                        second_arround=neighboar_coords
-                        break
-                    if counter <=1:
-                        third_arround=neighboar_coords
-                        break
-            
-
-            intersection = [value for value in first_arround if value in second_arround and value in third_arround and value not in self.red_coords]
-            
-            if len(intersection)!=0:
-                return intersection
-            else:
-                return None
+                if len(intersections)!=0:
+                    return last_intersection
+                else:
+                    return None
+        else:
+            return None

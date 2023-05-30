@@ -18,8 +18,8 @@ blue_coords=[]
 red_dot=[]
 red_coords=[]
 
-fill_value_dot=dot(0,0,150,150,150,0,True,[],[],[])
-fill_value_coord=[0,0]
+fill_value_dot=dot(10000,10000,150,150,150,0,True,[],[],[])
+fill_value_coord=[10000,10000]
 
 #main loop  
 while True:
@@ -68,10 +68,10 @@ while True:
             if button1.clicked(mouse_pos) or running_main_loop==True:
                 pygame.display.update()
                 running_main_loop=True
-                time.sleep(1.5)
-                print('clicked' )
                 game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
 
+                time.sleep(1.5)
+                print('clicked' )
                 game.neighboar_checking()
                 
                 
@@ -91,47 +91,52 @@ while True:
                 
 
                 for b_dot, r_dot in zip_longest(blue_dot, red_dot, fillvalue=fill_value_dot):
-                    game=game_of_life(blue_dot,red_dot,blue_coords,red_coords)
                     #sola da problema para un patron, pero para el resto va bastate bien
-                    
+
                     
                     intersection=game.inteserction_betwean_dots_blue(b_dot)     
-                    print(intersection)
                     intersection_r=game.inteserction_betwean_dots_red(r_dot)
                     
                     if None != intersection: 
                         for j in intersection:
                             new_dot_b=bluedot(j[0],j[1],0,0,255,4,True,[],[],[])
                             game.neighboar_checking_new_gens_blues(new_dot_b)
-                            if [new_dot_b.x, new_dot_b.y]in new_gen_coords_blue or [new_dot_b.x, new_dot_b.y] in new_gen_coords_red:
-                                print('not valid')
-                                del new_dot_b
-                            else:
-                                if [new_dot_b.x, new_dot_b.y] in blue_coords or [new_dot_b.x, new_dot_b.y] in red_coords:
-                                    print('not valid')
-                                    del new_dot_b
+                                                        
+                            if len(new_dot_b.same_neigbor)<=3:    
+                                if [new_dot_b.x, new_dot_b.y]in new_gen_coords_blue or [new_dot_b.x, new_dot_b.y] in new_gen_coords_red:
+                                        print('not valid')
+                                        del new_dot_b
                                 else:
-                                    new_gen_blue.append(new_dot_b)
-                                    new_gen_coords_blue.append([new_dot_b.x,new_dot_b.y])
-                                    new_dot_b.draw(window)
-                            
+                                    if [new_dot_b.x, new_dot_b.y] in blue_coords or [new_dot_b.x, new_dot_b.y] in red_coords:
+                                        print('not valid')
+                                        del new_dot_b
+                                    else:
+                                        new_gen_blue.append(new_dot_b)
+                                        new_gen_coords_blue.append([new_dot_b.x,new_dot_b.y])
+                                        new_dot_b.draw(window)
+                            else:
+                                del new_dot_b
+
+                                
                     
                     if None != intersection_r:
-                        
                         for i in intersection_r:
                             new_dot_r=reddot(i[0],i[1],255,0,0,4,True,[],[],[])
                             game.neighboar_checking_new_gens_reds(new_dot_r)
-
-                            if [new_dot_r.x, new_dot_r.y] in new_gen_coords_red or [new_dot_r.x, new_dot_r.y] in new_gen_coords_blue:
-                                del new_dot_r
-                            else:
-                                if [new_dot_r.x, new_dot_r.y] in blue_coords or [new_dot_r.x, new_dot_r.y] in red_coords:
-                                    print('not valid')
-                                    del new_dot_r
+                            
+                            if len(new_dot_r.same_neigbor)<=3:
+                                if [new_dot_r.x, new_dot_r.y] in new_gen_coords_red or [new_dot_r.x, new_dot_r.y] in new_gen_coords_blue:
+                                    del new_dot_r   
                                 else:
-                                    new_gen_red.append(new_dot_r)
-                                    new_gen_coords_red.append([new_dot_r.x,new_dot_r.y])
-                                    new_dot_r.draw(window)
+                                    if [new_dot_r.x, new_dot_r.y] in blue_coords or [new_dot_r.x, new_dot_r.y] in red_coords:
+                                        print('not valid')
+                                        del new_dot_r
+                                    else:
+                                        new_gen_red.append(new_dot_r)
+                                        new_gen_coords_red.append([new_dot_r.x,new_dot_r.y])
+                                        new_dot_r.draw(window)
+                            else:
+                                del new_dot_r
 
 
                     b_dot.point_state()
